@@ -4,11 +4,17 @@ import sys
 Inspired and adaptated from 
 http://www.mathcs.emory.edu/~cheung/Courses/323/Syllabus/Text/Matching-Boyer-Moore1.html
 http://www8.cs.umu.se/kurser/TDBA59/VT01/mom3/slides/BM-alg.html
-https://stackoverflow.com/questions/6207819/boyer-moore-algorithm-understanding-and-example
+https://stackoverflow.com/questions/6207819/boyer-moore-algorithm-understanding-and-example  see btilly explication post
+
+Simplified Boyer-Moore from Goodrich
+That don't use good suffix heuristic but instead
+Slide 1 character down and start matching again           
 """
  
 def lastOccurrence(string, size):
- 
+    """
+    Preprocessing for the bad character heuristic
+    """ 
     number_characters = 256
     badChar = [-1]*number_characters
     for i in range(size):
@@ -16,6 +22,9 @@ def lastOccurrence(string, size):
     return badChar
  
 def boyerSearch(motif,sequence):
+    """
+    Boyer Moore approach
+    """
     badChar = lastOccurrence(motif, len(motif)) 
     shift = 0
     while shift <= len(sequence)-len(motif):
@@ -29,6 +38,7 @@ def boyerSearch(motif,sequence):
             shift += max(1, j-badChar[ord(sequence[shift+j])])
  
 #MAIN
+
 SEQUENCE= open(sys.argv[2], "r").read()
 MOTIF=str(sys.argv[1])
 print("Finding MOTIF in SEQUENCE:")
